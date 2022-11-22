@@ -1,0 +1,33 @@
+<style>
+ input.term, input:focus {
+  background-color: black;
+  border: none;
+  outline: none;
+ }
+ input[type="text"] {
+  color: white;
+  font-family: monospace;
+ }
+</style>
+
+<pre id="display" style="display:inline">{{ shell }}</pre><input
+  type="text"
+  id="command"
+  class="term"
+  size="120"
+  autofocus
+  onkeydown="if (event.key == 'Enter') command()"/>
+
+<script>
+function command() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    document.getElementById("display").innerHTML = this.responseText;
+    document.getElementById("command").value = '';
+  }
+  xhttp.open("POST", "/sht");
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  var params = "command=" + document.getElementById("command").value;
+  xhttp.send(params);
+}
+</script>
